@@ -1,1 +1,1 @@
-# Jenny-assistant
+# jenny-assistant

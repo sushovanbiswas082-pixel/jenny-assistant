@@ -9,7 +9,7 @@ export async function POST(req) {
   const { message } = await req.json();
 
   const completion = await client.chat.completions.create({
-    model: "openrouter/free",
+    model: "deepseek/deepseek-chat-v3-0324:free",
     messages: [{ role: "user", content: message }],
   });
 

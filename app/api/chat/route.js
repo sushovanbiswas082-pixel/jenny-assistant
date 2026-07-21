@@ -9,7 +9,7 @@ export async function POST(req) {
   const { message } = await req.json();
 
   const completion = await client.chat.completions.create({
-    model: "meta-llama/llama-3.3-8b-instruct:free",
+    model: "poolside/laguna-xs-2.1:free",
     messages: [{ role: "user", content: message }],
   });
 

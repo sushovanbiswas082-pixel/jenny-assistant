@@ -9,7 +9,7 @@ export async function POST(req) {
   const { message } = await req.json();
 
   const completion = await client.chat.completions.create({
-    model: "anthropic/claude-3.5-sonnet:beta",
+    model: "anthropic/claude-sonnet-4.5",
     messages: [{ role: "user", content: message }],
   });
 

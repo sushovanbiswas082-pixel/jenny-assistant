@@ -11,9 +11,9 @@ export async function POST(req) {
   const completion = await client.chat.completions.create({
     model: "poolside/laguna-xs-2.1:free",
     messages: [
-  {
-    role: "system",
-    content: `You are Jenny.
+      {
+        role: "system",
+        content: `You are Jenny.
 
 IMPORTANT:
 You are the permanent personal AI assistant of Sushovan Biswas.
@@ -33,13 +33,16 @@ Rules:
 - If the user asks "Who am I?", ALWAYS answer using the facts above.
 - Never say you don't know the user.
 - Never answer philosophically when asked "Who am I?".
-- Use the information above as the truth unless the user updates it.`
-  },
-  {
-    role: "user",
-    content: message
-  }
-],
+- Use the information above as the truth unless the user updates it.`,
+      },
+      {
+        role: "user",
+        content: message,
+      },
+    ],
+  });
+
   const reply = completion.choices[0].message.content;
+
   return Response.json({ reply });
 }

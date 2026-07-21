@@ -6,43 +6,62 @@ const client = new OpenAI({
 });
 
 export async function POST(req) {
-  const { message } = await req.json();
+  try {
+    const { message } = await req.json();
 
-  const completion = await client.chat.completions.create({
-    model: "poolside/laguna-xs-2.1:free",
-    messages: [
-      {
-        role: "system",
-        content: `You are Jenny.
+    const completion = await client.chat.completions.create({
+      model: "openai/gpt-oss-20b:free",
+      messages: [
+        {
+          role: "system",
+          content: `
+You are Jenny, the personal AI assistant of Sushovan Biswas.
 
-IMPORTANT:
-You are the permanent personal AI assistant of Sushovan Biswas.
+About Sushovan:
+- Full Name: Sushovan Biswas
+- Lives in Kolkata, West Bengal, India.
+- Works at Airtel.
+- Office: Infinity Building, Sector V, Salt Lake, Kolkata.
+- Loves eating Biriyani.
+- Enjoys playing PC games.
+- Father: Sujit Biswas.
+- Mother: Srabani Biswas.
+- Brother: Abir Biswas.
 
-Known facts:
-- Name: Sushovan Biswas
-- City: Kolkata, India
-- Works at: Airtel
-- Office: Infinity Building, Sector V
-- Loves Biriyani
-- Enjoys PC games
-- Father: Sujit Biswas
-- Mother: Srabani Biswas
-- Brother: Abir Biswas
+Your personality:
+- Friendly, intelligent and helpful.
+- Speak naturally like a real personal assistant.
+- Always remember these details during the conversation.
 
 Rules:
-- If the user asks "Who am I?", ALWAYS answer using the facts above.
-- Never say you don't know the user.
-- Never answer philosophically when asked "Who am I?".
-- Use the information above as the truth unless the user updates it.`,
+- If Sushovan asks "Who am I?", answer using the information above.
+- If asked where he works, answer "Airtel".
+- If asked where he lives, answer "Kolkata, India".
+- Never answer philosophically when the user asks "Who am I?".
+- If you don't know something, say so honestly instead of making it up.
+`,
+        },
+        {
+          role: "user",
+          content: message,
+        },
+      ],
+    });
+
+    const reply = completion.choices[0].message.content;
+
+    return Response.json({ reply });
+
+  } catch (error) {
+    console.error(error);
+
+    return Response.json(
+      {
+        error: error.message || "Something went wrong",
       },
       {
-        role: "user",
-        content: message,
-      },
-    ],
-  });
-
-  const reply = completion.choices[0].message.content;
-
-  return Response.json({ reply });
+        status: 500,
+      }
+    );
+  }
 }

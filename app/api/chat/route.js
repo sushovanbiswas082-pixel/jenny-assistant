@@ -9,7 +9,7 @@ export async function POST(req) {
   const { message } = await req.json();
 
   const completion = await client.chat.completions.create({
-    model: "meta-llama/llama-3.3-70b-instruct:free",
+    model: "openrouter/free",
     messages: [{ role: "user", content: message }],
   });
 
